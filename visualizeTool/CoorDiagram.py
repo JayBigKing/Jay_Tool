@@ -50,7 +50,7 @@ class CoorDiagram:
             minVal = np.min(scatter[:, 0])
             maxVal = np.max(scatter[:, 0])
 
-        theX = range(int(minVal - 1),int(maxVal + 1))
+        # theX = range(int(minVal - 1),int(maxVal + 1))
         for index, scatter in enumerate(scattersList):
             scatter = np.array(scatter)
             x = scatter[:, 0]
@@ -63,5 +63,5 @@ class CoorDiagram:
                 plt.text(x[0],y[0],"orgin",ha='center',va='bottom')
             else:
                 plt.text(x[0], y[0], r"%s orgin"%nameList[index], ha='center', va='bottom')
-        plt.xticks(theX)
+        # plt.xticks(theX)
         plt.show()
