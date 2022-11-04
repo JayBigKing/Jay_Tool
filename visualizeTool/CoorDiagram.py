@@ -7,7 +7,6 @@ import time
 class CoorDiagram:
     def __init__(self, storePath = "./"):
         self.storePath = storePath
-        print(os.getcwd())
     def setStorePath(self, storePath):
         self.storePath = storePath
 
