@@ -6,9 +6,13 @@ import time
 
 class CoorDiagram:
     def __init__(self, storePath = "./"):
+        self.setStorePath(storePath)
+    def setStorePath(self, storePath:str):
         self.storePath = storePath
-    def setStorePath(self, storePath):
-        self.storePath = storePath
+        if self.storePath[-1] != '/':
+            self.storePath = self.storePath + "/"
+
+
 
     def drawOneLine(self, x, y):
         plt.plot(x, y)
@@ -81,7 +85,7 @@ class CoorDiagram:
         plt.show()
 
     def figureFileNameGenerate(self):
-        return time.strftime("figure%Y%m%d_%H%M%S", time.localtime())
+        return time.strftime("figure%Y%m%d_%H%M%S.png", time.localtime())
 
     def saveFigure(self, ifSaveFig, saveFigName):
         if ifSaveFig is True:
