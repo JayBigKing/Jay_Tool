@@ -83,6 +83,7 @@ class CoorDiagram:
 
         self.saveFigure(ifSaveFig, saveFigName)
         plt.show()
+        plt.clf()
 
     def figureFileNameGenerate(self):
         return time.strftime("figure%Y%m%d_%H%M%S.png", time.localtime())
