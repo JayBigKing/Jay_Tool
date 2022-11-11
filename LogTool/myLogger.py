@@ -27,7 +27,7 @@ fileLogger = None
 
 def myLogger_Init(level = logging.INFO, loggerFileName : str = ""):
     if loggerFileName == "":
-        loggerFileName = r'../logs/%s%s.log' % ("log", str(time.strftime("%Y-%m-%d_%H_%M_%S", time.localtime())))
+        loggerFileName = r'./logs/%s%s.log' % ("log", str(time.strftime("%Y-%m-%d_%H_%M_%S", time.localtime())))
 
     global consoleLogger
     global fileLogger
