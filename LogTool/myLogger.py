@@ -24,6 +24,9 @@ messageTypeSet = {
 
 consoleLogger = None
 fileLogger = None
+consoleAndFileLogger = None
+consoleLoggerHandler = None
+fileLoggerHandler = None
 
 def myLogger_Init(level = logging.INFO, loggerFileName : str = ""):
     if loggerFileName == "":
@@ -31,10 +34,15 @@ def myLogger_Init(level = logging.INFO, loggerFileName : str = ""):
 
     global consoleLogger
     global fileLogger
+    global consoleAndFileLogger
+    global consoleLoggerHandler
+    global fileLoggerHandler
     consoleLogger = logging.getLogger("consoleLogger")
     fileLogger = logging.getLogger("fileLogger")
+    consoleAndFileLogger = logging.getLogger("consoleAndFileLogger")
     consoleLogger.setLevel(level)
     fileLogger.setLevel(level)
+    consoleAndFileLogger.setLevel(level)
 
     consoleLoggerFmt = colorlog.ColoredFormatter(
         fmt = '%(log_color)s%(asctime)s - %(name)s - %(levelname)-9s - %(filename)-12s : %(lineno)s line - %(message)s',
@@ -52,7 +60,8 @@ def myLogger_Init(level = logging.INFO, loggerFileName : str = ""):
 
     consoleLogger.addHandler(consoleLoggerHandler)
     fileLogger.addHandler(fileLoggerHandler)
-
+    consoleAndFileLogger.addHandler(consoleLoggerHandler)
+    consoleAndFileLogger.addHandler(fileLoggerHandler)
 
 
 def myLogger_PushOutMessageBase(messageType, whichHandler, message : str = ""):
@@ -81,7 +90,6 @@ def myLogger_PushOutMessageBase(messageType, whichHandler, message : str = ""):
             pushOutLogger.info(message)
         else:
             pushOutLogger.debug(message)
-
 
 
 def myLogger_ConsoleError(message : str = ""):
@@ -124,5 +132,31 @@ def myLogger_Debug(message : str = ""):
     myLogger_ConsoleDebug(message)
     myLogger_FileDebug(message)
 
+def myLogger_ConsoleLogger():
+    try:
+        if consoleLogger is None:
+            raise AttributeError('consoleLogger has not initial')
+        else:
+            return consoleLogger
+    except AttributeError as e:
+        print(repr(e))
 
-myLogger_Init()
+def myLogger_FileLogger():
+    try:
+        if fileLogger is None:
+            raise AttributeError('fileLogger has not initial')
+        else:
+            return fileLogger
+    except AttributeError as e:
+        print(repr(e))
+
+def myLogger_Logger():
+    try:
+        if consoleAndFileLogger is None:
+            raise AttributeError('consoleAndFileLogger has not initial')
+        else:
+            return consoleAndFileLogger
+    except AttributeError as e:
+        print(repr(e))
+
+# myLogger_Init()

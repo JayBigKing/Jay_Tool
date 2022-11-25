@@ -54,7 +54,7 @@ class CoorDiagram:
         plt.show()
 
     def drawManyScattersInOnePlane(self, scattersList, nameList=None, labelNames=None, titleName=None, ifSaveFig=False,
-                                   saveFigName=None):
+                                   saveFigName=None, showOriginPoint=True):
         if scattersList is None:
             return
         if labelNames is None:
@@ -69,10 +69,12 @@ class CoorDiagram:
 
             if nameList is None:
                 plt.plot(x, y)
-                plt.text(x[0], y[0], "orgin", ha='center', va='bottom')
+                if showOriginPoint is True:
+                    plt.text(x[0], y[0], "orgin", ha='center', va='bottom')
             else:
                 plt.plot(x, y, label = nameList[index])
-                plt.text(x[0], y[0], r"%s orgin" % nameList[index], ha='center', va='bottom')
+                if showOriginPoint is True:
+                    plt.text(x[0], y[0], r"%s orgin" % nameList[index], ha='center', va='bottom')
                 plt.legend()
 
         if titleName is not None:

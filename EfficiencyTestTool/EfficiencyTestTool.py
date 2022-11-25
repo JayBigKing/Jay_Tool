@@ -1,5 +1,6 @@
 import time
 import functools
+from Jay_Tool.LogTool import myLogger
 
 def clockTester(func):
     @functools.wraps(func)
@@ -15,7 +16,10 @@ def clockTester(func):
             pairs = ['%s=%r' % (k,w) for k, w in sorted(kwargs.items())]
             arg_lst.append(', '.join(pairs))
         arg_str = ', '.join(arg_lst)
-        print('[%0.8fs] %s(%s) -> %r' % (elapsed, name, arg_str, result))
+        if myLogger.consoleLogger is None:
+            print('[%0.8fs] %s(%s) -> %r' % (elapsed, name, arg_str, result))
+        else:
+            myLogger.myLogger_Logger().info('[%0.8fs] %s(%s) -> %r' % (elapsed, name, arg_str, result))
 
         return result
 
