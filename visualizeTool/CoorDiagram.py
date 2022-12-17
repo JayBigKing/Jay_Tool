@@ -5,14 +5,13 @@ import time
 
 
 class CoorDiagram:
-    def __init__(self, storePath = "./"):
+    def __init__(self, storePath="./"):
         self.setStorePath(storePath)
-    def setStorePath(self, storePath:str):
+
+    def setStorePath(self, storePath: str):
         self.storePath = storePath
         if self.storePath[-1] != '/':
             self.storePath = self.storePath + "/"
-
-
 
     def drawOneLine(self, x, y):
         plt.plot(x, y)
@@ -53,8 +52,8 @@ class CoorDiagram:
                 plt.plot(x, y)
         plt.show()
 
-    def drawManyScattersInOnePlane(self, scattersList, nameList=None, labelNames=None, titleName=None, ifSaveFig=False,
-                                   saveFigName=None, showOriginPoint=True):
+    def drawManyScattersInOnePlane(self, scattersList, nameList=None, labelNames=None, titleName=None,
+                                   ifDrawFig=True, ifSaveFig=False, saveFigName=None, showOriginPoint=True):
         if scattersList is None:
             return
         if labelNames is None:
@@ -72,7 +71,7 @@ class CoorDiagram:
                 if showOriginPoint is True:
                     plt.text(x[0], y[0], "orgin", ha='center', va='bottom')
             else:
-                plt.plot(x, y, label = nameList[index])
+                plt.plot(x, y, label=nameList[index])
                 if showOriginPoint is True:
                     plt.text(x[0], y[0], r"%s orgin" % nameList[index], ha='center', va='bottom')
                 plt.legend()
@@ -84,8 +83,10 @@ class CoorDiagram:
         plt.ylabel(labelNames[1])
 
         self.saveFigure(ifSaveFig, saveFigName)
-        plt.show()
+        if ifDrawFig is True:
+            plt.show()
         plt.clf()
+
 
     def figureFileNameGenerate(self):
         return time.strftime("figure%Y%m%d_%H%M%S.png", time.localtime())
@@ -98,4 +99,3 @@ class CoorDiagram:
                 os.mkdir(self.storePath)
 
             plt.savefig("{:}{:}".format(self.storePath, saveFigName))
-
