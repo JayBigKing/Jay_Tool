@@ -59,43 +59,46 @@ class CoorDiagram:
         if labelNames is None:
             labelNames = ["x", "y"]
 
+        fig = plt.figure()
+        ax = fig.add_subplot(1, 1, 1)
+
         for index, scatter in enumerate(scattersList):
             scatter = np.array(scatter)
             x = scatter[:, 0]
             y = scatter[:, 1]
 
-            plt.scatter(x, y)
+            ax.scatter(x, y)
 
             if nameList is None:
-                plt.plot(x, y)
+                ax.plot(x, y)
                 if showOriginPoint is True:
-                    plt.text(x[0], y[0], "orgin", ha='center', va='bottom')
+                    ax.text(x[0], y[0], "orgin", ha='center', va='bottom')
             else:
-                plt.plot(x, y, label=nameList[index])
+                ax.plot(x, y, label=nameList[index])
                 if showOriginPoint is True:
                     plt.text(x[0], y[0], r"%s orgin" % nameList[index], ha='center', va='bottom')
-                plt.legend()
+                ax.legend()
 
         if titleName is not None:
-            plt.title(titleName)
+            ax.set_title(titleName)
 
-        plt.xlabel(labelNames[0])
-        plt.ylabel(labelNames[1])
+        ax.set_xlabel(labelNames[0])
+        ax.set_ylabel(labelNames[1])
 
-        self.saveFigure(ifSaveFig, saveFigName)
+        self.saveFigure(fig, ifSaveFig, saveFigName)
         if ifDrawFig is True:
-            plt.show()
-        plt.clf()
+            fig.show()
+        # plt.clf()
 
 
     def figureFileNameGenerate(self):
         return time.strftime("figure%Y%m%d_%H%M%S.png", time.localtime())
 
-    def saveFigure(self, ifSaveFig, saveFigName):
+    def saveFigure(self, fig, ifSaveFig, saveFigName):
         if ifSaveFig is True:
             if saveFigName is None:
                 saveFigName = self.figureFileNameGenerate()
             if os.path.exists(self.storePath) is False:
                 os.mkdir(self.storePath)
 
-            plt.savefig("{:}{:}".format(self.storePath, saveFigName))
+            fig.savefig("{:}{:}".format(self.storePath, saveFigName))
