@@ -90,15 +90,27 @@ class CoorDiagram:
             fig.show()
         # plt.clf()
 
-
     def figureFileNameGenerate(self):
         return time.strftime("figure%Y%m%d_%H%M%S.png", time.localtime())
 
     def saveFigure(self, fig, ifSaveFig, saveFigName):
         if ifSaveFig is True:
-            if saveFigName is None:
-                saveFigName = self.figureFileNameGenerate()
             if os.path.exists(self.storePath) is False:
                 os.mkdir(self.storePath)
-
-            fig.savefig("{:}{:}".format(self.storePath, saveFigName))
+            if saveFigName is None:
+                saveFigName = self.figureFileNameGenerate()
+                totalSaveFigPath = "{:}{:}".format(self.storePath, saveFigName)
+                if os.path.exists(totalSaveFigPath):
+                    figIndex = 1
+                    originSaveFigName = saveFigName
+                    while True:
+                        saveFigName = "{:}({:}).png".format(originSaveFigName[0: originSaveFigName.find(".png")],
+                                                            figIndex)
+                        totalSaveFigPath = "{:}{:}".format(self.storePath, saveFigName)
+                        if os.path.exists(totalSaveFigPath):
+                            figIndex += 1
+                        else:
+                            fig.savefig(totalSaveFigPath)
+                            break
+                else:
+                    fig.savefig(totalSaveFigPath)
