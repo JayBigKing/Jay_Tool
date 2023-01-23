@@ -1,4 +1,8 @@
 import os
+import sys
+if sys.platform.startswith('linux'):
+    import matplotlib
+    matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import time
@@ -88,6 +92,7 @@ class CoorDiagram:
         self.saveFigure(fig, ifSaveFig, saveFigName)
         if ifDrawFig is True:
             fig.show()
+        plt.close(fig)
         # plt.clf()
 
     def figureFileNameGenerate(self):
