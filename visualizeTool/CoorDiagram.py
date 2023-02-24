@@ -1,11 +1,13 @@
 import os
 import sys
+import matplotlib
 if sys.platform.startswith('linux'):
-    import matplotlib
     matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import time
+plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
 
 
 class CoorDiagram:
@@ -96,7 +98,7 @@ class CoorDiagram:
         # plt.clf()
 
     def figureFileNameGenerate(self):
-        return time.strftime("figure%Y%m%d_%H%M%S.png", time.localtime())
+        return time.strftime("figure%Y%m%d_%H%M%S.pdf", time.localtime())
 
     def saveFigure(self, fig, ifSaveFig, saveFigName):
         if ifSaveFig is True:
@@ -109,7 +111,7 @@ class CoorDiagram:
                     figIndex = 1
                     originSaveFigName = saveFigName
                     while True:
-                        saveFigName = "{:}({:}).png".format(originSaveFigName[0: originSaveFigName.find(".png")],
+                        saveFigName = "{:}({:}).pdf".format(originSaveFigName[0: originSaveFigName.find(".pdf")],
                                                             figIndex)
                         totalSaveFigPath = "{:}{:}".format(self.storePath, saveFigName)
                         if os.path.exists(totalSaveFigPath):
