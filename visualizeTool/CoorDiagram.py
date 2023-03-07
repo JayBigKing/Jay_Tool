@@ -59,7 +59,8 @@ class CoorDiagram:
         plt.show()
 
     def drawManyScattersInOnePlane(self, scattersList, nameList=None, labelNames=None, titleName=None,
-                                   ifDrawFig=True, ifSaveFig=False, saveFigName=None, showOriginPoint=True):
+                                   ifDrawFig=True, ifSaveFig=False, saveFigName=None, showOriginPoint=True,
+                                   saveFigNameSuffix="pdf"):
         if scattersList is None:
             return
         if labelNames is None:
@@ -91,33 +92,52 @@ class CoorDiagram:
         ax.set_xlabel(labelNames[0])
         ax.set_ylabel(labelNames[1])
 
-        self.saveFigure(fig, ifSaveFig, saveFigName)
+        self.saveFigure(fig, ifSaveFig, saveFigName, saveFigNameSuffix)
         if ifDrawFig is True:
             fig.show()
         plt.close(fig)
         # plt.clf()
 
-    def figureFileNameGenerate(self):
-        return time.strftime("figure%Y%m%d_%H%M%S.pdf", time.localtime())
+    def figureFileNameGenerate(self, saveFigNameSuffix="pdf"):
+        return "figure%s.%s" % (time.strftime("figure%Y%m%d_%H%M%S", time.localtime()), saveFigNameSuffix)
 
-    def saveFigure(self, fig, ifSaveFig, saveFigName):
+    def saveFigure(self, fig, ifSaveFig, saveFigName, saveFigNameSuffix="pdf"):
+        def checkFigName(saveFigName: str):
+            suffixIndex = saveFigName.find(".")
+            if suffixIndex != -1:
+                realSaveFigNameSuffix = saveFigName[suffixIndex + 1:]
+            else:
+                realSaveFigNameSuffix = saveFigNameSuffix
+
+            if suffixIndex == -1:
+                totalSaveFigPath = "{:}{:}.{:}".format(self.storePath, saveFigName, realSaveFigNameSuffix)
+            else:
+
+                totalSaveFigPath = "{:}{:}".format(self.storePath, saveFigName)
+
+            if os.path.exists(totalSaveFigPath):
+                figIndex = 1
+                if suffixIndex == -1:
+                    originSaveFigName = saveFigName
+                else:
+                    originSaveFigName = saveFigName[:suffixIndex]
+
+                while True:
+                    saveFigName = "{:}({:}).{:}".format(originSaveFigName,
+                                                        figIndex, realSaveFigNameSuffix)
+                    totalSaveFigPath = "{:}{:}".format(self.storePath, saveFigName)
+                    if os.path.exists(totalSaveFigPath):
+                        figIndex += 1
+                    else:
+                        return totalSaveFigPath
+            else:
+                return totalSaveFigPath
+
+
         if ifSaveFig is True:
             if os.path.exists(self.storePath) is False:
                 os.mkdir(self.storePath)
             if saveFigName is None:
                 saveFigName = self.figureFileNameGenerate()
-                totalSaveFigPath = "{:}{:}".format(self.storePath, saveFigName)
-                if os.path.exists(totalSaveFigPath):
-                    figIndex = 1
-                    originSaveFigName = saveFigName
-                    while True:
-                        saveFigName = "{:}({:}).pdf".format(originSaveFigName[0: originSaveFigName.find(".pdf")],
-                                                            figIndex)
-                        totalSaveFigPath = "{:}{:}".format(self.storePath, saveFigName)
-                        if os.path.exists(totalSaveFigPath):
-                            figIndex += 1
-                        else:
-                            fig.savefig(totalSaveFigPath)
-                            break
-                else:
-                    fig.savefig(totalSaveFigPath)
+
+            fig.savefig(checkFigName(saveFigName))
