@@ -60,13 +60,20 @@ class CoorDiagram:
 
     def drawManyScattersInOnePlane(self, scattersList, nameList=None, labelNames=None, titleName=None,
                                    ifDrawFig=True, ifSaveFig=False, saveFigName=None, showOriginPoint=True,
-                                   saveFigNameSuffix="pdf"):
+                                   saveFigNameSuffix="pdf", ifScatterPlotPoint=True, figureArgs=None):
         if scattersList is None:
             return
         if labelNames is None:
-            labelNames = ["x", "y"]
+            labelNames = ["x(m)", "y(m)"]
 
-        fig = plt.figure()
+        if figureArgs is not None:
+            if figureArgs.get("figSize") is not None:
+                fig = plt.figure(figsize=figureArgs["figSize"])
+            else:
+                fig = plt.figure()
+        else:
+            fig = plt.figure()
+
         ax = fig.add_subplot(1, 1, 1)
 
         for index, scatter in enumerate(scattersList):
@@ -74,7 +81,8 @@ class CoorDiagram:
             x = scatter[:, 0]
             y = scatter[:, 1]
 
-            ax.scatter(x, y)
+            if ifScatterPlotPoint is True:
+                ax.scatter(x, y)
 
             if nameList is None:
                 ax.plot(x, y)
