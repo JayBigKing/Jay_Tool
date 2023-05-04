@@ -6,9 +6,10 @@ if sys.platform.startswith('linux'):
 import matplotlib.pyplot as plt
 import numpy as np
 import time
-plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
+# plt.rcParams['font.sans-serif'] = ['SimHei']  # 用来正常显示中文标签
 plt.rcParams['axes.unicode_minus'] = False  # 用来正常显示负号
-
+matplotlib.rcParams['pdf.fonttype'] = 42
+matplotlib.rcParams['ps.fonttype'] = 42
 
 class CoorDiagram:
     def __init__(self, storePath="./"):
