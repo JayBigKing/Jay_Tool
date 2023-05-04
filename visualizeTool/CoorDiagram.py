@@ -65,7 +65,7 @@ class CoorDiagram:
         if scattersList is None:
             return
         if labelNames is None:
-            labelNames = ["x", "y"]
+            labelNames = ["x(m)", "y(m)"]
 
         if figureArgs is not None:
             if figureArgs.get("figSize") is not None:
