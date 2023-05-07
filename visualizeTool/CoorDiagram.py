@@ -147,6 +147,6 @@ class CoorDiagram:
             if os.path.exists(self.storePath) is False:
                 os.mkdir(self.storePath)
             if saveFigName is None:
-                saveFigName = self.figureFileNameGenerate()
+                saveFigName = self.figureFileNameGenerate(saveFigNameSuffix=saveFigNameSuffix)
 
             fig.savefig(checkFigName(saveFigName))
