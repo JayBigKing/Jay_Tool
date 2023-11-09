@@ -83,7 +83,7 @@ class ErrorShadowDiagram(CoorDiagram):
             else:
                 ax.plot(x, y, label=nameList[index])
 
-            fillBtwAlpha = 0.8
+            fillBtwAlpha = 0.5
             if figureArgs is not None:
                 if figureArgs.get("fillBtwAlpha") is not None:
                     fillBtwAlpha = figureArgs["figureArgs"]

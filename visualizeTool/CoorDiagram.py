@@ -88,15 +88,19 @@ class CoorDiagram:
             if nameList is None:
                 ax.plot(x, y)
                 if showOriginPoint is True:
-                    ax.text(x[0], y[0], "orgin", ha='center', va='bottom')
+                    ax.text(x[0], y[0], "origin", ha='center', va='bottom')
             else:
                 ax.plot(x, y, label=nameList[index])
                 if showOriginPoint is True:
-                    plt.text(x[0], y[0], r"%s orgin" % nameList[index], ha='center', va='bottom')
+                    if figureArgs is not None and figureArgs.get("originWordsDraw") is not None and figureArgs["originWordsDraw"] is True:
+                        plt.text(x[0], y[0], r"%s origin" % nameList[index], ha='center', va='bottom')
+                    else:
+                        plt.text(x[0], y[0], r"%s" % nameList[index], ha='center', va='bottom')
                 ax.legend()
 
-        if titleName is not None:
-            ax.set_title(titleName)
+        if figureArgs is not None and figureArgs.get("drawTitle") is not None and figureArgs["drawTitle"] is True:
+            if titleName is not None:
+                ax.set_title(titleName)
 
         ax.set_xlabel(labelNames[0])
         ax.set_ylabel(labelNames[1])
